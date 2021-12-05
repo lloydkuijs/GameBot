@@ -7,45 +7,14 @@ This bot needs a userInfo.json with the following:
 `{
   "accounts": [
     {
-      "username": "",
-      "password": "",
-      "task": "Farming Leader",
-      "abilities": [
-        {
-          "key": "f1",
-          "castTime": 1,
-          "coolDown": 2
-        },
-        {
-          "key": "f2",
-          "castTime": 1,
-          "coolDown": 2
-        }
-      ]
+      "username": "-",
+      "password": "-",
+      "class": "Farming Leader"
     },
     {
-      "username": "",
-      "password": "",
-      "task": "Farming",
-      "abilities": [
-        {
-          "key": "f1",
-          "castTime": 1,
-          "coolDown": 2
-        },
-        {
-          "key": "f2",
-          "castTime": 1,
-          "coolDown": 2
-        }
-      ]
+      "username": "-",
+      "password": "-",
+      "class": "Farming Mage"
     }
   ]
-}`
-
-and a gameAttributes.json with the following:
-`{
-	"exeName": "",
-	"exePath": "",
-	"accountPath": ""
 }`
