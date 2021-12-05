@@ -1,50 +1,52 @@
 import random
 import time
 from time import sleep
-import pydirectinput as input
 import enum
 import json
 from botvision import BotVision
-
+import numpy as np
 import time
 
 class FarmComponent:
+    old_position = np.zeros(3)
+    position = np.zeros(3)
 
-    def __init__(self, bot_vision):
+    old_camera_position = np.zeros(3)
+    camera_position = np.zeros(3)
+
+    properties = {}
+
+    def __init__(self, bot_vision : BotVision):
         self.bot_vision = bot_vision
+
+        with open('addresses.json') as data:
+            addresses = json.load(data)
+
+            for key, value in addresses:
+                self.properties[key] = int(value, 16)
 
     def perform(self):
         pos, match = self.bot_vision.match_template('resources/enemy_health.png')
 
+        pos = int(pos[0]), int(pos[1] + 50)
+
         if match < 0.9:
-            print("Enemies not found, switching screens")
+            print("Enemies not found")
         else:
             self.bot_vision.click(pos)
 
-
-
-    def update(self):
-        self.health = self.read_integer("health")
-        self.mp = self.read_integer("mp")
-        self.max_mp = self.read_integer("maxMp")
-        self.x = self.read_float("x")
-        self.y = self.read_float("y")
-        self.z = self.read_float("z")
-        self.camera_x = self.read_float("cameraX")
-        self.camera_y = self.read_float("cameraY")
-        self.camera_z = self.read_float("cameraZ")
-
-        self.target_selected = not self.read_bool("targetSelected")
+    def update_position(self):
+        self.old_position = self.position
+        self.position[0] = self.bot_vision.read_integer(self.properties['x'])
+        self.position[1] = self.bot_vision.read_integer(self.properties['y'])
+        self.position[2] = self.bot_vision.read_integer(self.properties['z'])
 
     def is_moving(self):
-        self.old_x = self.x
-        self.old_y = self.y
-        self.old_z = self.z
+        previous_position = self.old_position
+        sleep(1)
+        self.update_position()
 
-        sleep(0.02)
-        self.update()
-
-        if self.x != self.old_x or self.y != self.old_y or self.z != self.old_z:
+        if previous_position != self.position:
             return True
 
         return False
@@ -124,7 +126,7 @@ class TaskPerformer:
 if __name__ == '__main__':
     botVision = BotVision()
     sleep(5)
-    botVision.attach_top_window()
+    botVision.target_top_window()
 
     component = FarmComponent(botVision)
     component.perform()
