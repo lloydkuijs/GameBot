@@ -1,6 +1,30 @@
 {
   "classes": [
     {
+      "name": "Farming Leader",
+      "tasks": ["Farming"],
+      "abilities:": [
+        {
+          "key": "F4",
+          "coolDown": "108"
+        },
+        {
+          "key": "F5",
+          "coolDown": "108"
+        },
+        {
+          "key": "F1",
+          "coolDown": "24"
+        },
+        {
+          "key": "F2",
+          "coolDown": "24"
+        },
+        {
+          "key": "F6",
+          "coolDown": "24"
+        }
+      ]
     }
   ]
 }
